@@ -17,6 +17,16 @@ This project delivers a structured analysis of juvenile crime statistics derived
 
 ---
 
+
+
+## Objective
+- Analyze juvenile crime patterns across cities  
+- Evaluate case outcomes and judicial performance  
+- Generate insights using data visualization  
+
+---
+
+
 ## Analytical Scope
 The analysis focuses on:
 - Distribution of juvenile crime across major cities
@@ -59,6 +69,19 @@ Visual models were designed to present comparative insights across multiple dime
 - Structured dataset (CSV)  
 
 ---
+
+
+---
+
+## Dashboard Preview
+
+
+
+---
+
+
+
+
 
 ## Key Insights
 - Noticeable variation in juvenile crime across cities  
