@@ -111,9 +111,28 @@ git clone https://github.com/Vikas-Yadav-6696/juvenile-justice-cognos-analytics-
 
 ---
 
-## Tools & Technologies
-- IBM Cognos Analytics  
-- Microsoft Excel  
+
+## 🛠️ Tools & Technologies
+
+| Category | Tools Used |
+|----------|-----------|
+| BI Tool | IBM Cognos Analytics |
+| Data Source | NCRB Crime in India 2023 |
+| Data Format | CSV / Excel |
+| Analysis | KPI analysis, aggregation, filtering |
+| Visualization | Interactive dashboards, charts |
+
+
+---
+---
+
+## 📊 Key Performance Indicators (KPIs)
+
+- Total Juvenile Cases  
+- Conviction Rate (%)  
+- Pending Case Ratio (%)  
+- Disposal Efficiency (%)  
+- Regional Case Distribution  
 
 ---
 ## 👨‍💻 Author
