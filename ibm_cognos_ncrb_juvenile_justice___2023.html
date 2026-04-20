@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>IBM Cognos Analytics — NCRB Juvenile Justice 2023</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans',Arial,sans-serif;background:#f4f6f9;color:#1a1a1a;font-size:14px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.cog-topbar{background:#0f3250;padding:10px 20px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:200}
+.cog-logo{display:flex;align-items:center;gap:8px}
+.cog-logo-box{width:28px;height:28px;background:#0062ff;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cog-logo-box svg{width:18px;height:18px}
+.cog-title-top{font-size:13px;font-weight:500;color:#fff;letter-spacing:.3px}
+.cog-subtitle-top{font-size:11px;color:#a0b4c5;margin-top:1px}
+.cog-badge{margin-left:auto;background:#0062ff;color:#fff;font-size:10px;font-weight:500;padding:3px 10px;border-radius:3px;letter-spacing:.4px;white-space:nowrap}
+.cog-toolbar{background:#1a4567;padding:0 20px;display:flex;align-items:stretch;gap:2px;border-bottom:2px solid #0d2e45;overflow-x:auto;scrollbar-width:none}
+.cog-toolbar::-webkit-scrollbar{display:none}
+.cog-tab{font-size:12px;color:#a0b4c5;padding:10px 16px;cursor:pointer;border:none;background:transparent;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px;transition:color .2s,border-color .2s}
+.cog-tab:hover{color:#dde6ef;background:rgba(255,255,255,.06)}
+.cog-tab.active{color:#fff;border-bottom-color:#0062ff;background:rgba(255,255,255,.04)}
+.toolbar-right{margin-left:auto;font-size:10px;color:#7a9ab2;padding:10px 0;white-space:nowrap;flex-shrink:0}
+.tab-pane{display:none;padding:16px 20px;flex-direction:column;gap:16px}
+.tab-pane.active{display:flex}
+.report-header{background:linear-gradient(135deg,#0f3250 0%,#1a5a80 100%);border-radius:8px;padding:20px 24px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.report-header h1{font-size:18px;font-weight:600;color:#fff;letter-spacing:.2px}
+.report-header p{font-size:12px;color:#a0b4c5;margin-top:4px;line-height:1.5}
+.rh-right{text-align:right;flex-shrink:0}
+.rh-right .date{font-size:11px;color:#7a9ab2;margin-bottom:4px}
+.rh-right .source{font-size:10px;color:#5a7a92;background:rgba(255,255,255,.08);padding:3px 8px;border-radius:3px}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.kpi-card{background:#fff;border-radius:8px;border:.5px solid #dde3ea;padding:14px 16px;position:relative;overflow:hidden}
+.kpi-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
+.kpi-card.blue::before{background:#0062ff}
+.kpi-card.teal::before{background:#009d9a}
+.kpi-card.red::before{background:#da1e28}
+.kpi-card.green::before{background:#198038}
+.kpi-card.purple::before{background:#6929c4}
+.kpi-card.amber::before{background:#f1620a}
+.kpi-label{font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.kpi-value{font-size:24px;font-weight:600;color:#1a1a1a;line-height:1}
+.kpi-sub{font-size:11px;color:#6b7280;margin-top:5px}
+.kpi-trend{font-size:10px;font-weight:500;padding:2px 6px;border-radius:3px;display:inline-block;margin-top:4px}
+.kpi-trend.up{background:#d0e6c9;color:#198038}
+.kpi-trend.dn{background:#fde8e8;color:#da1e28}
+.kpi-trend.neutral{background:#e0e7ef;color:#4d6b82}
+.kpi-trend.warn{background:#fdf4dd;color:#8a5a00}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid-3{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:14px}
+.panel,.full-panel{background:#fff;border-radius:8px;border:.5px solid #dde3ea;padding:16px}
+.panel-title{font-size:11px;font-weight:500;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.panel-title .dot{width:6px;height:6px;border-radius:50%;background:#0062ff;flex-shrink:0}
+.legend-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:#6b7280}
+.leg-swatch{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.tbl-wrap{overflow-x:auto;border-radius:6px}
+table.cog-table{width:100%;border-collapse:collapse;font-size:11.5px}
+table.cog-table thead tr{background:#0f3250}
+table.cog-table thead th{color:#fff;padding:8px 10px;text-align:left;font-weight:500;font-size:11px;letter-spacing:.3px;white-space:nowrap}
+table.cog-table tbody tr{border-bottom:.5px solid #e8ecf0;transition:background .15s}
+table.cog-table tbody tr:hover{background:#f0f5ff}
+table.cog-table tbody td{padding:7px 10px;color:#1a1a1a;white-space:nowrap}
+.badge{display:inline-block;padding:2px 8px;border-radius:3px;font-size:10px;font-weight:500}
+.badge.high{background:#fde8e8;color:#a2191f}
+.badge.med{background:#fdf4dd;color:#8a5a00}
+.badge.low{background:#d0e6c9;color:#198038}
+.badge.blue-b{background:#ddeeff;color:#0043a8}
+.filter-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:#f8fafc;border-radius:6px;padding:10px 14px;border:.5px solid #e0e6ed;margin-bottom:14px}
+.filter-bar label{font-size:11px;color:#6b7280;font-weight:500}
+.filter-bar input,.filter-bar select{font-size:11px;border:.5px solid #dde3ea;border-radius:4px;padding:5px 9px;background:#fff;color:#222;outline:none}
+.filter-bar input:focus,.filter-bar select:focus{border-color:#0062ff;box-shadow:0 0 0 2px #0062ff22}
+.btn-reset{font-size:11px;padding:5px 12px;border-radius:4px;border:.5px solid #dde3ea;cursor:pointer;font-weight:500;background:#fff;color:#555}
+.btn-reset:hover{background:#f0f0f0}
+.findings-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.finding-card{background:#f8fafc;border-radius:6px;border-left:3px solid #0062ff;padding:12px 14px}
+.finding-card.warn{border-left-color:#f1620a}
+.finding-card.danger{border-left-color:#da1e28}
+.finding-card.success{border-left-color:#198038}
+.finding-card h4{font-size:12px;font-weight:500;color:#1a1a1a;margin-bottom:5px}
+.finding-card p{font-size:11px;color:#6b7280;line-height:1.6}
+.metric-explain{background:#f8fafc;border-radius:8px;border:.5px solid #e0e6ed;padding:14px 16px}
+.metric-explain h4{font-size:12px;font-weight:500;color:#0f3250;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.metric-explain .formula{font-size:11px;color:#6b7280;background:#fff;border:.5px solid #dde3ea;border-radius:4px;padding:5px 10px;margin-bottom:6px;font-family:monospace;word-break:break-all}
+.metric-explain p{font-size:11px;color:#6b7280;line-height:1.6}
+.rec-table{width:100%;border-collapse:collapse;font-size:12px}
+.rec-table thead th{background:#0f3250;color:#fff;padding:9px 12px;text-align:left;font-weight:500;font-size:11px;letter-spacing:.3px}
+.rec-table tbody tr{border-bottom:.5px solid #e8ecf0}
+.rec-table tbody tr:hover{background:#f0f5ff}
+.rec-table tbody td{padding:10px 12px;vertical-align:top;line-height:1.5}
+.priority{display:inline-block;padding:2px 8px;border-radius:3px;font-size:10px;font-weight:600}
+.priority.high{background:#fde8e8;color:#a2191f}
+.priority.medium{background:#fdf4dd;color:#8a5a00}
+.priority.low{background:#d0e6c9;color:#198038}
+.footer-bar{background:#0f3250;border-radius:8px;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.footer-bar p{font-size:10px;color:#7a9ab2}
+/* RESPONSIVE */
+@media(max-width:900px){.grid-3{grid-template-columns:1fr 1fr}.grid-3 .panel:first-child{grid-column:1/-1}}
+@media(max-width:640px){
+  .tab-pane{padding:10px 12px}
+  .kpi-row{grid-template-columns:1fr 1fr}
+  .grid-2,.grid-3{grid-template-columns:1fr}
+  .findings-grid{grid-template-columns:1fr}
+  .report-header{flex-direction:column}
+  .rh-right{text-align:left}
+  .toolbar-right{display:none}
+  .cog-tab{padding:8px 10px;font-size:11px}
+  .filter-bar{flex-direction:column;align-items:stretch}
+  .filter-bar input,.filter-bar select{width:100%}
+  #roadmap{grid-template-columns:1fr !important}
+}
+@media(max-width:400px){.kpi-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<h2 class="sr-only">IBM Cognos Analytics Report — NCRB Juvenile Justice 2023</h2>
+
+<div class="cog-topbar">
+  <div class="cog-logo">
+    <div class="cog-logo-box"><svg viewBox="0 0 18 18" fill="none"><rect x="1" y="1" width="7" height="7" rx="1" fill="#fff"/><rect x="10" y="1" width="7" height="7" rx="1" fill="#fff" opacity=".6"/><rect x="1" y="10" width="7" height="7" rx="1" fill="#fff" opacity=".6"/><rect x="10" y="10" width="7" height="7" rx="1" fill="#fff" opacity=".3"/></svg></div>
+    <div><div class="cog-title-top">IBM Cognos Analytics</div><div class="cog-subtitle-top">Report Studio — Active Report</div></div>
+  </div>
+  <div class="cog-badge">NCRB 2023</div>
+</div>
+
+<div class="cog-toolbar">
+  <button class="cog-tab active" data-tab="overview">Overview</button>
+  <button class="cog-tab" data-tab="city">City Analysis</button>
+  <button class="cog-tab" data-tab="derived">Derived Metrics</button>
+  <button class="cog-tab" data-tab="recs">Recommendations</button>
+  <span class="toolbar-right">Refresh: 2023-12-31 &nbsp;|&nbsp; 19 cities &nbsp;|&nbsp; Vikas Yadav</span>
+</div>
+
+<!-- ═══ TAB 1: OVERVIEW ═══ -->
+<div class="tab-pane active" id="tab-overview">
+  <div class="report-header">
+    <div><h1>Juvenile Justice Disposal Analysis — 2023</h1><p>Disposal of Juveniles Apprehended under IPC &amp; SLL &nbsp;|&nbsp; 19 Major Indian Cities &nbsp;|&nbsp; IBM Cognos Analytics Mini Project</p></div>
+    <div class="rh-right"><div class="date">Report Date: April 20, 2026</div><div class="source">Source: NCRB CII 2023 · Table 5B-5</div></div>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi-card blue"><div class="kpi-label">Total Cases (2023)</div><div class="kpi-value">16,200</div><div class="kpi-sub">Incl. 8,679 carried forward</div><span class="kpi-trend neutral">19 cities</span></div>
+    <div class="kpi-card teal"><div class="kpi-label">Fresh Apprehensions</div><div class="kpi-value">7,521</div><div class="kpi-sub">New cases in 2023</div><span class="kpi-trend neutral">46.4% of total</span></div>
+    <div class="kpi-card red"><div class="kpi-label">Pending Disposal</div><div class="kpi-value">9,086</div><div class="kpi-sub">Unresolved at year-end</div><span class="kpi-trend dn">56.1% backlog rate</span></div>
+    <div class="kpi-card green"><div class="kpi-label">Avg. Guilty Verdict %</div><div class="kpi-value">92.5%</div><div class="kpi-sub">Across disposed cases</div><span class="kpi-trend up">Rehabilitation-led</span></div>
+  </div>
+  <div class="grid-3">
+    <div class="panel">
+      <div class="panel-title"><span class="dot"></span>Top 8 cities — apprehensions</div>
+      <div class="legend-row"><span class="leg-item"><span class="leg-swatch" style="background:#0062ff"></span>Apprehended</span><span class="leg-item"><span class="leg-swatch" style="background:#009d9a"></span>Disposed</span></div>
+      <div style="position:relative;height:260px"><canvas id="barChart" role="img" aria-label="Top 8 cities by apprehensions vs disposals">Delhi 3098, Chennai 771, Bengaluru 551.</canvas></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title"><span class="dot" style="background:#009d9a"></span>Disposal outcome mix</div>
+      <div class="legend-row">
+        <span class="leg-item"><span class="leg-swatch" style="background:#0062ff"></span>Sent Home (34.4%)</span>
+        <span class="leg-item"><span class="leg-swatch" style="background:#009d9a"></span>Special Home (11.6%)</span>
+        <span class="leg-item"><span class="leg-swatch" style="background:#f1620a"></span>Pending (56.1%)</span>
+        <span class="leg-item"><span class="leg-swatch" style="background:#6929c4"></span>Fined/Imprisoned</span>
+        <span class="leg-item"><span class="leg-swatch" style="background:#8a3ffc"></span>Acquitted</span>
+        <span class="leg-item"><span class="leg-swatch" style="background:#ba4e00"></span>Disc. Invest.</span>
+      </div>
+      <div style="position:relative;height:200px"><canvas id="donutChart" role="img" aria-label="Disposal outcome mix">Pending 56.1%, Sent Home 34.4%.</canvas></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title"><span class="dot" style="background:#da1e28"></span>Resolution rate — all cities</div>
+      <div style="position:relative;height:260px"><canvas id="horizBar" role="img" aria-label="Resolution rate per city">Ahmedabad, Kolkata, Surat 100%.</canvas></div>
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="panel">
+      <div class="panel-title"><span class="dot" style="background:#6929c4"></span>Derived metrics radar — key cities</div>
+      <div style="position:relative;height:260px"><canvas id="radarChart" role="img" aria-label="Radar chart derived metrics for Delhi Indore Kochi Bengaluru">Radar of 5 derived metrics.</canvas></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title"><span class="dot" style="background:#f1620a"></span>Backlog burden vs. apprehensions</div>
+      <div style="position:relative;height:260px"><canvas id="scatterChart" role="img" aria-label="Scatter: apprehensions vs pending cases">Mumbai and Pune outliers.</canvas></div>
+    </div>
+  </div>
+  <div class="full-panel">
+    <div class="panel-title"><span class="dot" style="background:#198038"></span>Key findings &amp; insights</div>
+    <div class="findings-grid">
+      <div class="finding-card danger"><h4>Maharashtra Backlog Crisis</h4><p>Mumbai (backlog ratio 5.08) and Pune (5.33) carry caseloads 5× larger than annual apprehensions — a structural judicial capacity failure requiring fast-track courts.</p></div>
+      <div class="finding-card success"><h4>Best-Practice Cities</h4><p>Ahmedabad, Kochi (98.2%), Surat (100%) and Kolkata (100%) achieved complete or near-complete annual resolution — demonstrating achievable benchmarks for all cities.</p></div>
+      <div class="finding-card warn"><h4>Rehabilitation Dominance</h4><p>46.1% of resolved cases used non-punitive routes, aligning with JJ Act 2015. Indore is an outlier with a 30% conviction rate and 5.84% severity index.</p></div>
+      <div class="finding-card"><h4>Delhi — Volume Leader</h4><p>Delhi accounts for 41.2% of national apprehensions (3,098 of 7,521) with a 67.2% resolution rate and 94.6% guilty verdict — the most resource-intensive jurisdiction.</p></div>
+      <div class="finding-card warn"><h4>Inactive Reporting Cities</h4><p>Ghaziabad reported zero activity. Lucknow and Kanpur carry backlogs of 37 and 151 cases with no new apprehensions — data quality review warranted.</p></div>
+      <div class="finding-card success"><h4>Imprisonment Rate Very Low</h4><p>Only 145 of 16,200 juveniles (0.89%) were awarded imprisonment nationally — largely consistent with JJ Act intent. Chennai and Indore exceed 3%.</p></div>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <p>IBM Cognos Analytics · NCRB CII 2023 Table 5B-5 · Mini Project · Submitted By: Vikas Yadav · April 2026</p>
+    <p>github.com/Vikas-Yadav-6696/juvenile-justice-cognos-analytics-india</p>
+  </div>
+</div>
+
+<!-- ═══ TAB 2: CITY ANALYSIS ═══ -->
+<div class="tab-pane" id="tab-city">
+  <div class="report-header">
+    <div><h1>City-Level Analysis</h1><p>Filter, sort and explore juvenile justice metrics across all 19 reporting cities</p></div>
+    <div class="rh-right"><div class="date">NCRB 2023 · Table 5B-5</div></div>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi-card blue"><div class="kpi-label">Active Reporting Cities</div><div class="kpi-value">18</div><div class="kpi-sub">Ghaziabad — no data filed</div><span class="kpi-trend neutral">of 19 total</span></div>
+    <div class="kpi-card red"><div class="kpi-label">Highest Apprehensions</div><div class="kpi-value">Delhi</div><div class="kpi-sub">3,098 new cases</div><span class="kpi-trend dn">41.2% of national</span></div>
+    <div class="kpi-card green"><div class="kpi-label">100% Resolution</div><div class="kpi-value">3 Cities</div><div class="kpi-sub">Ahmedabad · Kolkata · Surat</div><span class="kpi-trend up">Zero backlog</span></div>
+    <div class="kpi-card amber"><div class="kpi-label">Worst Backlog Ratio</div><div class="kpi-value">Pune</div><div class="kpi-sub">5.33× — 2,601 pending</div><span class="kpi-trend dn">Critical</span></div>
+  </div>
+  <div class="full-panel">
+    <div class="panel-title"><span class="dot"></span>Search, filter &amp; sort city data</div>
+    <div class="filter-bar">
+      <label>City:</label>
+      <input type="text" id="citySearch" placeholder="Search city name…" style="width:150px"/>
+      <label>State:</label>
+      <select id="stateFilter"><option value="">All states</option></select>
+      <label>Risk:</label>
+      <select id="riskFilter"><option value="">All</option><option>HIGH</option><option>MEDIUM</option><option>LOW</option></select>
+      <label>Sort:</label>
+      <select id="sortFilter">
+        <option value="app">Apprehensions ↓</option>
+        <option value="rr">Resolution Rate ↓</option>
+        <option value="pe">Pending End ↓</option>
+        <option value="pg">Guilty % ↓</option>
+        <option value="backlog">Backlog Ratio ↓</option>
+      </select>
+      <button class="btn-reset" onclick="resetFilters()">Reset</button>
+    </div>
+    <div class="tbl-wrap">
+      <table class="cog-table">
+        <thead><tr><th>#</th><th>City</th><th>State</th><th>Pending (Start)</th><th>Apprehended</th><th>Total</th><th>Sent Home</th><th>Special Home</th><th>Imprisoned</th><th>Pending (End)</th><th>Guilty %</th><th>Resolution %</th><th>Rehab %</th><th>Backlog Ratio</th><th>Risk</th></tr></thead>
+        <tbody id="cityTableBody"></tbody>
+      </table>
+    </div>
+    <div style="margin-top:8px;font-size:11px;color:#6b7280" id="tableCount"></div>
+  </div>
+  <div class="grid-2">
+    <div class="panel">
+      <div class="panel-title"><span class="dot" style="background:#009d9a"></span>Disposed vs. pending — all cities</div>
+      <div style="position:relative;height:320px"><canvas id="cityStackBar" role="img" aria-label="Stacked bar disposed vs pending all cities">Stacked bar of all 19 cities.</canvas></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title"><span class="dot" style="background:#6929c4"></span>Disposal method — top 7 cities</div>
+      <div style="position:relative;height:320px"><canvas id="disposalStack" role="img" aria-label="Disposal method breakdown top 7 cities">Sent home, special home, fined, imprisoned per city.</canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TAB 3: DERIVED METRICS ═══ -->
+<div class="tab-pane" id="tab-derived">
+  <div class="report-header">
+    <div><h1>Derived Analytical Metrics</h1><p>Five custom-computed columns for evidence-based benchmarking, resource planning, and JJ Act compliance tracking</p></div>
+    <div class="rh-right"><div class="date">Computed from NCRB 2023</div></div>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi-card blue"><div class="kpi-label">Avg. Resolution Rate</div><div class="kpi-value">43.9%</div><div class="kpi-sub">Cases disposed ÷ total cases</div><span class="kpi-trend dn">Below target</span></div>
+    <div class="kpi-card green"><div class="kpi-label">Avg. Rehab Rate</div><div class="kpi-value">34.2%</div><div class="kpi-sub">Sent home + special home</div><span class="kpi-trend up">JJ Act aligned</span></div>
+    <div class="kpi-card red"><div class="kpi-label">National Severity Index</div><div class="kpi-value">0.89%</div><div class="kpi-sub">Imprisoned ÷ total cases</div><span class="kpi-trend up">Very low — good</span></div>
+    <div class="kpi-card amber"><div class="kpi-label">Avg. Backlog Ratio</div><div class="kpi-value">1.54×</div><div class="kpi-sub">Inherited ÷ new apprehensions</div><span class="kpi-trend dn">Systemically high</span></div>
+  </div>
+  <div class="grid-2">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="metric-explain"><h4><span class="badge blue-b">1</span> Resolution Rate %</h4><div class="formula">= (Total Cases − Pending End) ÷ Total Cases × 100</div><p>Measures the share of all cases closed during 2023. A rate below 50% means the system is accumulating caseload faster than clearing it. National figure: <strong>43.9%</strong>.</p></div>
+      <div class="metric-explain"><h4><span class="badge blue-b">2</span> Rehabilitation Rate %</h4><div class="formula">= (Sent Home + Sent to Special Home) ÷ Total × 100</div><p>Captures non-punitive, restorative disposals. Core to JJ Act 2015 philosophy. Best cities (Kochi, Hyderabad, Ahmedabad) exceed 94%.</p></div>
+      <div class="metric-explain"><h4><span class="badge blue-b">3</span> Conviction Rate %</h4><div class="formula">= (Fined + Imprisoned) ÷ Total Cases × 100</div><p>Tracks punitive outcomes. Ideally kept as low as possible. Indore (30.04%) and Chennai (5.27%) are outliers requiring urgent review.</p></div>
+      <div class="metric-explain"><h4><span class="badge blue-b">4</span> Backlog Ratio</h4><div class="formula">= Pending at Beginning ÷ Apprehended During Year</div><p>Ratio &gt;1 signals that inherited backlog exceeds new-case volume — systemic stress. Mumbai (5.08) and Pune (5.33) are at critical levels.</p></div>
+      <div class="metric-explain"><h4><span class="badge blue-b">5</span> Severity Index %</h4><div class="formula">= Juveniles Awarded Imprisonment ÷ Total Cases × 100</div><p>Key human-rights indicator. Cities above 3% warrant judicial review. Nationally only 0.89% — largely compliant with the JJ Act spirit.</p></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="panel">
+        <div class="panel-title"><span class="dot" style="background:#0062ff"></span>Resolution rate vs. rehabilitation rate</div>
+        <div style="position:relative;height:240px"><canvas id="rrRehabScatter" role="img" aria-label="Scatter of resolution rate vs rehabilitation rate per city">Each point is a city.</canvas></div>
+      </div>
+      <div class="panel">
+        <div class="panel-title"><span class="dot" style="background:#da1e28"></span>Severity index &amp; conviction rate by city</div>
+        <div style="position:relative;height:220px"><canvas id="severityBar" role="img" aria-label="Severity and conviction rate per city">Indore and Chennai highest.</canvas></div>
+      </div>
+    </div>
+  </div>
+  <div class="full-panel">
+    <div class="panel-title"><span class="dot"></span>All 5 derived metrics — complete city table</div>
+    <div class="tbl-wrap">
+      <table class="cog-table">
+        <thead><tr><th>City</th><th>State</th><th>Resolution Rate %</th><th>Rehabilitation Rate %</th><th>Conviction Rate %</th><th>Backlog Ratio</th><th>Severity Index %</th><th>Risk Level</th></tr></thead>
+        <tbody id="derivedTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TAB 4: RECOMMENDATIONS ═══ -->
+<div class="tab-pane" id="tab-recs">
+  <div class="report-header">
+    <div><h1>Policy Recommendations</h1><p>Evidence-based action points derived from the NCRB 2023 data analysis — priority-ranked by urgency and impact</p></div>
+    <div class="rh-right"><div class="date">Priority-ranked · April 2026</div></div>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi-card red"><div class="kpi-label">High Priority Actions</div><div class="kpi-value">3</div><div class="kpi-sub">Immediate intervention</div><span class="kpi-trend dn">Critical</span></div>
+    <div class="kpi-card amber"><div class="kpi-label">Medium Priority</div><div class="kpi-value">3</div><div class="kpi-sub">Short-term planning</div><span class="kpi-trend warn">Moderate</span></div>
+    <div class="kpi-card green"><div class="kpi-label">Cities Needing Action</div><div class="kpi-value">6</div><div class="kpi-sub">Mumbai, Pune, Chennai +3</div><span class="kpi-trend neutral">Targeted</span></div>
+    <div class="kpi-card blue"><div class="kpi-label">Governing Framework</div><div class="kpi-value">JJ Act</div><div class="kpi-sub">2015 — Care &amp; Protection</div><span class="kpi-trend neutral">Compliance review</span></div>
+  </div>
+  <div class="full-panel">
+    <div class="panel-title"><span class="dot" style="background:#da1e28"></span>Prioritised recommendations</div>
+    <div class="tbl-wrap">
+      <table class="rec-table">
+        <thead><tr><th style="width:32px">#</th><th style="width:150px">Focus Area</th><th style="width:190px">Key Cities</th><th>Recommendation</th><th style="width:78px">Priority</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:600;color:#aaa">1</td><td style="font-weight:500;color:#0f3250">Backlog Reduction</td><td><span class="badge high" style="margin:2px">Mumbai</span><span class="badge high" style="margin:2px">Pune</span><span class="badge med" style="margin:2px">Chennai</span><span class="badge med" style="margin:2px">Patna</span></td><td>Establish dedicated fast-track Juvenile Justice Boards (JJBs) in Maharashtra. Set mandatory 90-day case disposal targets with monthly performance dashboards reported to the state Home Ministry.</td><td><span class="priority high">HIGH</span></td></tr>
+          <tr><td style="font-weight:600;color:#aaa">2</td><td style="font-weight:500;color:#0f3250">Reduce Imprisonment</td><td><span class="badge high" style="margin:2px">Chennai</span><span class="badge high" style="margin:2px">Indore</span></td><td>Align sentencing with JJ Act 2015 — custodial sentences must be the absolute last resort. Mandate judicial training on restorative justice and pre-sentencing rehabilitation assessments.</td><td><span class="priority high">HIGH</span></td></tr>
+          <tr><td style="font-weight:600;color:#aaa">3</td><td style="font-weight:500;color:#0f3250">Rehabilitation Infrastructure</td><td><span class="badge high" style="margin:2px">Indore</span><span class="badge med" style="margin:2px">Coimbatore</span><span class="badge med" style="margin:2px">Kozhikode</span></td><td>Expand community-based rehabilitation: open shelters, counselling centres, and skill development workshops. Target a national rehabilitation rate of ≥65% by 2026.</td><td><span class="priority high">HIGH</span></td></tr>
+          <tr><td style="font-weight:600;color:#aaa">4</td><td style="font-weight:500;color:#0f3250">Data Quality &amp; Reporting</td><td><span class="badge med" style="margin:2px">Ghaziabad</span><span class="badge med" style="margin:2px">Lucknow</span><span class="badge med" style="margin:2px">Kanpur</span></td><td>Mandate monthly case-level uploads to NCRB via a standardised digital portal. Trigger automatic administrative audits for jurisdictions submitting zero or incomplete records.</td><td><span class="priority medium">MEDIUM</span></td></tr>
+          <tr><td style="font-weight:600;color:#aaa">5</td><td style="font-weight:500;color:#0f3250">Special Home Oversight</td><td><span class="badge med" style="margin:2px">Delhi</span><span class="badge med" style="margin:2px">Jaipur</span><span class="badge med" style="margin:2px">Surat</span></td><td>Audit placement standards, capacity and exit outcomes in all Special Homes. Delhi (895 placements) and Jaipur (327) require immediate inspection for overcrowding and programme quality.</td><td><span class="priority medium">MEDIUM</span></td></tr>
+          <tr><td style="font-weight:600;color:#aaa">6</td><td style="font-weight:500;color:#0f3250">Scale Best Practices</td><td><span class="badge low" style="margin:2px">Ahmedabad</span><span class="badge low" style="margin:2px">Kochi</span><span class="badge low" style="margin:2px">Kolkata</span></td><td>Document and publish frameworks from cities achieving 100% resolution. Create a national knowledge exchange programme for laggard jurisdictions. Target a Juvenile Justice Performance Index (JJPI) by 2027.</td><td><span class="priority low">LOW</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="panel">
+      <div class="panel-title"><span class="dot" style="background:#da1e28"></span>Priority distribution</div>
+      <div class="legend-row"><span class="leg-item"><span class="leg-swatch" style="background:#da1e28"></span>High (3)</span><span class="leg-item"><span class="leg-swatch" style="background:#f1620a"></span>Medium (3)</span><span class="leg-item"><span class="leg-swatch" style="background:#198038"></span>Low (1)</span></div>
+      <div style="position:relative;height:220px"><canvas id="priorityDonut" role="img" aria-label="Priority donut chart">3 high, 3 medium, 1 low.</canvas></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title"><span class="dot" style="background:#0062ff"></span>Cities addressed per recommendation</div>
+      <div style="position:relative;height:220px"><canvas id="citiesRec" role="img" aria-label="Cities covered by each recommendation">Bar chart of cities per recommendation.</canvas></div>
+    </div>
+  </div>
+  <div class="full-panel">
+    <div class="panel-title"><span class="dot" style="background:#198038"></span>Implementation roadmap</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px" id="roadmap">
+      <div class="finding-card danger"><h4>Immediate (0–3 months)</h4><p>Fast-track JJB setup in Mumbai &amp; Pune. Judicial training on JJ Act 2015 in Chennai &amp; Indore. Emergency audit of overcrowded Special Homes in Delhi.</p></div>
+      <div class="finding-card warn"><h4>Short-term (3–12 months)</h4><p>Launch national digital NCRB reporting portal. Standardise rehabilitation programme metrics. State-level Backlog Reduction Task Forces in Maharashtra &amp; Tamil Nadu.</p></div>
+      <div class="finding-card success"><h4>Long-term (1–3 years)</h4><p>National knowledge exchange: top-performing cities mentoring laggards. Target 70%+ national resolution rate by 2027. Establish a Juvenile Justice Performance Index (JJPI).</p></div>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <p>IBM Cognos Analytics · NCRB CII 2023 Table 5B-5 · Mini Project · Submitted By: Vikas Yadav · April 2026</p>
+    <p>github.com/Vikas-Yadav-6696/juvenile-justice-cognos-analytics-india</p>
+  </div>
+</div>
+
+<script>
+const cities=[
+  {city:"Ahmedabad",state:"Gujarat",pb:0,app:460,tot:460,sh:414,sp:46,imp:0,pe:0,pg:100},
+  {city:"Bengaluru",state:"Karnataka",pb:97,app:551,tot:648,sh:287,sp:142,imp:0,pe:176,pg:100},
+  {city:"Chennai",state:"Tamil Nadu",pb:1337,app:771,tot:2108,sh:0,sp:10,imp:102,pe:1651,pg:37.5},
+  {city:"Coimbatore",state:"Tamil Nadu",pb:107,app:37,tot:144,sh:21,sp:0,imp:0,pe:99,pg:57.8},
+  {city:"Delhi",state:"Delhi",pb:1698,app:3098,tot:4796,sh:1649,sp:895,imp:1,pe:1575,pg:94.6},
+  {city:"Ghaziabad",state:"Uttar Pradesh",pb:0,app:0,tot:0,sh:0,sp:0,imp:0,pe:0,pg:null},
+  {city:"Hyderabad",state:"Telangana",pb:25,app:241,tot:266,sh:198,sp:52,imp:0,pe:16,pg:100},
+  {city:"Indore",state:"MP",pb:482,app:237,tot:719,sh:47,sp:156,imp:42,pe:233,pg:86.2},
+  {city:"Jaipur",state:"Rajasthan",pb:168,app:380,tot:548,sh:103,sp:327,imp:0,pe:117,pg:100},
+  {city:"Kanpur",state:"Uttar Pradesh",pb:103,app:48,tot:151,sh:0,sp:0,imp:0,pe:151,pg:null},
+  {city:"Kochi",state:"Kerala",pb:0,app:56,tot:56,sh:54,sp:1,imp:0,pe:1,pg:100},
+  {city:"Kolkata",state:"West Bengal",pb:0,app:133,tot:133,sh:80,sp:10,imp:0,pe:0,pg:73.1},
+  {city:"Kozhikode",state:"Kerala",pb:46,app:58,tot:104,sh:49,sp:0,imp:0,pe:50,pg:90.7},
+  {city:"Lucknow",state:"Uttar Pradesh",pb:37,app:0,tot:37,sh:0,sp:0,imp:0,pe:37,pg:null},
+  {city:"Mumbai",state:"Maharashtra",pb:1738,app:342,tot:2080,sh:109,sp:0,imp:0,pe:1964,pg:94},
+  {city:"Nagpur",state:"Maharashtra",pb:229,app:373,tot:602,sh:476,sp:0,imp:0,pe:116,pg:99.8},
+  {city:"Patna",state:"Bihar",pb:249,app:50,tot:299,sh:0,sp:0,imp:0,pe:299,pg:null},
+  {city:"Pune",state:"Maharashtra",pb:2363,app:443,tot:2806,sh:194,sp:0,imp:0,pe:2601,pg:100},
+  {city:"Surat",state:"Gujarat",pb:0,app:243,tot:243,sh:0,sp:243,imp:0,pe:0,pg:100},
+];
+cities.forEach(r=>{
+  r.rr=r.tot>0?+((r.tot-r.pe)/r.tot*100).toFixed(1):null;
+  r.rehab=r.tot>0?+((r.sh+r.sp)/r.tot*100).toFixed(1):null;
+  r.conv=r.tot>0?+(r.imp/r.tot*100).toFixed(2):null;
+  r.backlog=r.app>0?+(r.pb/r.app).toFixed(2):null;
+  r.sev=r.tot>0?+(r.imp/r.tot*100).toFixed(2):null;
+});
+const fmt=(v,s="")=>v===null||v===undefined||isNaN(v)?"—":`${v}${s}`;
+const rl=r=>{if(!r.tot)return'—';const p=r.pe/r.tot*100;return p>=70?'HIGH':p>=40?'MEDIUM':'LOW';};
+const rc=r=>{if(!r.tot)return'';const p=r.pe/r.tot*100;return p>=70?'high':p>=40?'med':'low';};
+
+/* ─ TABS ─ */
+const built={overview:false,city:false,derived:false,recs:false};
+const paneMap={overview:'tab-overview',city:'tab-city',derived:'tab-derived',recs:'tab-recs'};
+document.querySelectorAll('.cog-tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.cog-tab').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    const t=btn.dataset.tab;
+    document.getElementById(paneMap[t]).classList.add('active');
+    if(!built[t]){buildCharts(t);built[t]=true;}
+  });
+});
+
+function buildCharts(tab){
+  if(tab==='overview')buildOverview();
+  if(tab==='city')buildCity();
+  if(tab==='derived')buildDerived();
+  if(tab==='recs')buildRecs();
+}
+
+/* ─ OVERVIEW ─ */
+function buildOverview(){
+  const top8=cities.filter(r=>r.app>0).sort((a,b)=>b.app-a.app).slice(0,8);
+  new Chart(document.getElementById('barChart'),{type:'bar',data:{labels:top8.map(r=>r.city),datasets:[
+    {label:'Apprehended',data:top8.map(r=>r.app),backgroundColor:'#0062ff',borderRadius:3},
+    {label:'Disposed',data:top8.map(r=>r.tot-r.pe),backgroundColor:'#009d9a',borderRadius:3}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    scales:{x:{ticks:{font:{size:9},color:'#888',autoSkip:false,maxRotation:30}},y:{ticks:{font:{size:9},color:'#888'}}}}});
+
+  new Chart(document.getElementById('donutChart'),{type:'doughnut',data:{
+    labels:['Pending','Sent Home','Special Home','Fined/Imprisoned','Acquitted','Disc.Inv.'],
+    datasets:[{data:[9086,3681,1882,405,483,663],backgroundColor:['#f1620a','#0062ff','#009d9a','#6929c4','#8a3ffc','#ba4e00'],borderWidth:2,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{display:false}},layout:{padding:4}}});
+
+  const rr15=cities.filter(r=>r.rr!==null).sort((a,b)=>a.rr-b.rr);
+  new Chart(document.getElementById('horizBar'),{type:'bar',data:{labels:rr15.map(r=>r.city),datasets:[{label:'Resolution %',data:rr15.map(r=>r.rr),backgroundColor:rr15.map(r=>r.rr>=75?'#198038':r.rr<30?'#da1e28':'#f1620a'),borderRadius:2}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{x:{min:0,max:100,ticks:{font:{size:8},color:'#888',callback:v=>v+'%'}},y:{ticks:{font:{size:8.5},color:'#555'}}}}});
+
+  const rc2=cities.filter(r=>['Delhi','Indore','Kochi','Bengaluru'].includes(r.city));
+  const rColors=['#0062ff','#f1620a','#009d9a','#6929c4'];
+  new Chart(document.getElementById('radarChart'),{type:'radar',data:{
+    labels:['Resolution %','Rehab %','Conviction×3','Backlog×10','Severity×10'],
+    datasets:rc2.map((r,i)=>({label:r.city,data:[r.rr||0,r.rehab||0,(r.conv||0)*3,Math.min((r.backlog||0)*10,100),(r.sev||0)*10],
+      backgroundColor:rColors[i]+'28',borderColor:rColors[i],pointBackgroundColor:rColors[i],borderWidth:1.5,pointRadius:3}))},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},boxWidth:10,padding:8}}},
+      scales:{r:{ticks:{font:{size:8},backdropColor:'transparent'},grid:{color:'rgba(128,128,128,.2)'},pointLabels:{font:{size:9}},min:0,max:100}}}});
+
+  const sd=cities.filter(r=>r.tot>0).map(r=>({x:r.app,y:r.pe,label:r.city}));
+  new Chart(document.getElementById('scatterChart'),{type:'scatter',data:{datasets:[{data:sd,backgroundColor:'#0062ff70',borderColor:'#0062ff',pointRadius:5,pointHoverRadius:7}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:d=>`${d.raw.label}: ${d.raw.x} apprehended, ${d.raw.y} pending`}}},
+      scales:{x:{title:{display:true,text:'Fresh Apprehensions',font:{size:10},color:'#888'},ticks:{font:{size:9},color:'#888'},min:-50,max:3300},
+        y:{title:{display:true,text:'Pending at Year-End',font:{size:10},color:'#888'},ticks:{font:{size:9},color:'#888'},min:-50,max:2800}}}});}
+
+/* ─ CITY ANALYSIS ─ */
+function buildCity(){
+  const states=[...new Set(cities.map(r=>r.state))].sort();
+  const sf=document.getElementById('stateFilter');
+  states.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;sf.appendChild(o);});
+  renderCityTable(cities);
+  const valid=cities.filter(r=>r.tot>0);
+  new Chart(document.getElementById('cityStackBar'),{type:'bar',data:{labels:valid.map(r=>r.city),datasets:[
+    {label:'Disposed',data:valid.map(r=>r.tot-r.pe),backgroundColor:'#009d9a',borderRadius:2},
+    {label:'Pending',data:valid.map(r=>r.pe),backgroundColor:'#f1620a',borderRadius:2}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:10,padding:8}}},
+    scales:{x:{stacked:true,ticks:{font:{size:8},color:'#888',maxRotation:45,autoSkip:false}},y:{stacked:true,ticks:{font:{size:9},color:'#888'}}}}});
+
+  const top7=cities.filter(r=>r.tot>0).sort((a,b)=>b.tot-a.tot).slice(0,7);
+  new Chart(document.getElementById('disposalStack'),{type:'bar',data:{labels:top7.map(r=>r.city),datasets:[
+    {label:'Sent Home',data:top7.map(r=>r.sh),backgroundColor:'#0062ff',borderRadius:2},
+    {label:'Special Home',data:top7.map(r=>r.sp),backgroundColor:'#009d9a',borderRadius:2},
+    {label:'Imprisoned',data:top7.map(r=>r.imp),backgroundColor:'#da1e28',borderRadius:2},
+    {label:'Acquitted',data:top7.map(r=>r.tot>0?r.tot-r.pe-r.sh-r.sp-r.imp-r.pb:0),backgroundColor:'#6929c4',borderRadius:2},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:10,padding:8}}},
+    scales:{x:{stacked:true,ticks:{font:{size:8},color:'#888',maxRotation:30}},y:{stacked:true,ticks:{font:{size:9},color:'#888'}}}}});
+
+  ['citySearch','stateFilter','riskFilter','sortFilter'].forEach(id=>{
+    document.getElementById(id).addEventListener('input',applyFilters);
+    document.getElementById(id).addEventListener('change',applyFilters);
+  });
+}
+
+function applyFilters(){
+  const q=document.getElementById('citySearch').value.toLowerCase();
+  const st=document.getElementById('stateFilter').value;
+  const risk=document.getElementById('riskFilter').value;
+  const sortBy=document.getElementById('sortFilter').value;
+  let f=cities.filter(r=>{
+    if(q&&!r.city.toLowerCase().includes(q))return false;
+    if(st&&r.state!==st)return false;
+    if(risk&&rl(r)!==risk)return false;
+    return true;
+  });
+  f.sort((a,b)=>sortBy==='app'?b.app-a.app:sortBy==='rr'?(b.rr||0)-(a.rr||0):sortBy==='pe'?b.pe-a.pe:sortBy==='pg'?(b.pg||0)-(a.pg||0):(b.backlog||0)-(a.backlog||0));
+  renderCityTable(f);
+}
+function resetFilters(){document.getElementById('citySearch').value='';document.getElementById('stateFilter').value='';document.getElementById('riskFilter').value='';document.getElementById('sortFilter').value='app';renderCityTable(cities);}
+function renderCityTable(data){
+  const tb=document.getElementById('cityTableBody');tb.innerHTML='';
+  data.forEach((r,i)=>{
+    const riskL=rl(r),riskC=rc(r);
+    const rrC=r.rr===null?'':(r.rr>=75?'color:#198038;font-weight:500':r.rr<30?'color:#da1e28;font-weight:500':'color:#8a5a00;font-weight:500');
+    tb.innerHTML+=`<tr><td style="color:#aaa">${i+1}</td><td style="font-weight:500">${r.city}</td><td style="color:#6b7280">${r.state}</td><td>${r.pb.toLocaleString()}</td><td style="font-weight:500">${r.app.toLocaleString()}</td><td>${r.tot.toLocaleString()}</td><td>${r.sh.toLocaleString()}</td><td>${r.sp.toLocaleString()}</td><td style="${r.imp>0?'color:#da1e28;font-weight:500':''}">${r.imp}</td><td style="${r.pe>500?'color:#da1e28;font-weight:500':''}">${r.pe.toLocaleString()}</td><td>${fmt(r.pg,'%')}</td><td style="${rrC}">${fmt(r.rr,'%')}</td><td>${fmt(r.rehab,'%')}</td><td style="${r.backlog>2?'color:#da1e28;font-weight:500':r.backlog>1?'color:#8a5a00':''}">${fmt(r.backlog)}</td><td><span class="badge ${riskC}">${riskL}</span></td></tr>`;
+  });
+  document.getElementById('tableCount').textContent=`Showing ${data.length} of ${cities.length} cities`;
+}
+
+/* ─ DERIVED METRICS ─ */
+function buildDerived(){
+  const sd=cities.filter(r=>r.rr!==null&&r.rehab!==null).map(r=>({x:r.rr,y:r.rehab,label:r.city}));
+  new Chart(document.getElementById('rrRehabScatter'),{type:'scatter',data:{datasets:[{data:sd,backgroundColor:'#0062ff80',borderColor:'#0062ff',pointRadius:5,pointHoverRadius:7}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:d=>`${d.raw.label} — RR:${d.raw.x}% Rehab:${d.raw.y}%`}}},
+      scales:{x:{title:{display:true,text:'Resolution Rate %',font:{size:10},color:'#888'},ticks:{font:{size:9},color:'#888'},min:0,max:110},
+        y:{title:{display:true,text:'Rehabilitation Rate %',font:{size:10},color:'#888'},ticks:{font:{size:9},color:'#888'},min:-5,max:110}}}});
+
+  const sv=cities.filter(r=>r.tot>0&&r.city!=='Ghaziabad');
+  new Chart(document.getElementById('severityBar'),{type:'bar',data:{labels:sv.map(r=>r.city),datasets:[
+    {label:'Severity Index %',data:sv.map(r=>r.sev||0),backgroundColor:'#da1e28',borderRadius:2},
+    {label:'Conviction Rate %',data:sv.map(r=>r.conv||0),backgroundColor:'#f1620a',borderRadius:2}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:10,padding:8}}},
+    scales:{x:{ticks:{font:{size:7.5},color:'#888',maxRotation:40,autoSkip:false}},y:{ticks:{font:{size:9},color:'#888',callback:v=>v+'%'}}}}});
+
+  const tb=document.getElementById('derivedTableBody');
+  cities.forEach(r=>{
+    const riskL=rl(r),riskC=rc(r);
+    tb.innerHTML+=`<tr><td style="font-weight:500">${r.city}</td><td style="color:#6b7280">${r.state}</td><td style="${r.rr===null?'':(r.rr>=75?'color:#198038;font-weight:500':r.rr<30?'color:#da1e28;font-weight:500':'color:#8a5a00;font-weight:500')}">${fmt(r.rr,'%')}</td><td style="${r.rehab!==null&&r.rehab>=70?'color:#198038;font-weight:500':''}">${fmt(r.rehab,'%')}</td><td style="${r.conv>5?'color:#da1e28;font-weight:500':''}">${fmt(r.conv,'%')}</td><td style="${r.backlog>2?'color:#da1e28;font-weight:500':r.backlog>1?'color:#8a5a00':''}">${fmt(r.backlog)}</td><td style="${r.sev>3?'color:#da1e28;font-weight:500':''}">${fmt(r.sev,'%')}</td><td><span class="badge ${riskC}">${riskL}</span></td></tr>`;
+  });
+}
+
+/* ─ RECOMMENDATIONS ─ */
+function buildRecs(){
+  new Chart(document.getElementById('priorityDonut'),{type:'doughnut',data:{
+    labels:['High Priority','Medium Priority','Low Priority'],
+    datasets:[{data:[3,3,1],backgroundColor:['#da1e28','#f1620a','#198038'],borderWidth:2,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{display:true,position:'bottom',labels:{font:{size:11},boxWidth:12,padding:10}}}}});
+
+  new Chart(document.getElementById('citiesRec'),{type:'bar',data:{
+    labels:['Backlog Reduction','Reduce Imprisonment','Rehabilitation','Data Quality','Special Homes','Scale Best Practice'],
+    datasets:[{label:'Cities covered',data:[4,2,3,3,3,3],backgroundColor:'#0062ff',borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},
+      scales:{x:{ticks:{font:{size:9},color:'#888'}},y:{ticks:{font:{size:9},color:'#555'}}}}});
+}
+
+/* ─ BOOT ─ */
+buildCharts('overview');
+built.overview=true;
+</script>
+</body>
+</html>
