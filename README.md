@@ -78,26 +78,109 @@ Visual models were designed to present comparative insights across multiple dime
 
 
 
-## Dashboard Preview
-<img width="917" height="363" alt="Resolution rate vs  rehabilitation rate" src="https://github.com/user-attachments/assets/eb216365-54b1-402c-a1f1-a9804aa36b6a" raw=true />
-
-<img width="922" height="358" alt="Priority distribution" src="https://github.com/user-attachments/assets/c2d0864d-d6f5-42c1-bcbb-0db534e4896f" raw=true  />
-<img width="1875" height="835" alt="Policy Recommendations" src="https://github.com/user-attachments/assets/3d882731-4383-4dfd-bece-073fb7aea587" raw=true  />
-<img width="1867" height="437" alt="Key findings   insights" src="https://github.com/user-attachments/assets/506a82b6-a71f-4d9d-ab57-918b67ceba7f"  raw=true />
-<img width="926" height="447" alt="Disposed vs  pending — all cities" src="https://github.com/user-attachments/assets/bf1cabb6-28f8-4750-8a8a-1e142cdfcd50" raw=true  />
-<img width="468" height="412" alt="Disposal outcome mix" src="https://github.com/user-attachments/assets/60399541-7cd3-4230-a429-36faeb4d8507" raw=true  />
-
-<img width="463" height="377" alt="Resolution rate — all cities" src="https://github.com/user-attachments/assets/f1a76313-e8bb-4314-9761-63a178658226" raw=true  />
-<img width="931" height="460" alt="Disposal method — top 7 cities" src="https://github.com/user-attachments/assets/2cc0b205-3099-4e1f-8913-f6fa084ea688"  raw=true />
-<img width="925" height="381" alt="Derived metrics radar — key cities" src="https://github.com/user-attachments/assets/8fad9048-6ca5-4f20-b0a3-7cd7362f1a75" raw=true  />
-<img width="925" height="362" alt="Cities addressed per recommendation" src="https://github.com/user-attachments/assets/2e6e26a3-9060-4fff-9283-635543af13ec" raw=true  />
-<img width="926" height="393" alt="Backlog burden vs  apprehensions" src="https://github.com/user-attachments/assets/1eb1ebc0-86c6-4807-9dd8-bab49142f649" raw=true  />
-<img width="1866" height="806" alt="All 5 derived metrics — complete city table" src="https://github.com/user-attachments/assets/0e3efe87-48ac-4c00-b9f8-e811b0d63eb0" raw=true  />
-<img width="952" height="408" alt="Top 8 cities — apprehensions" src="https://github.com/user-attachments/assets/09d43050-1a97-4367-9558-a56e0f32fcba"  raw=true />
-<img width="929" height="338" alt="Severity index   conviction rate by city" src="https://github.com/user-attachments/assets/a751c7f1-68f1-4433-9385-9bcac7b11478" raw=true  />
-<img width="926" height="447" alt="Disposed vs  pending — all cities" src="https://github.com/user-attachments/assets/9819a92e-be73-47b4-91df-ef75f4295711" />
+## 📸 Dashboard Visualizations & Insights
 
 ---
+
+### 📊 1. Key Findings & Insights  
+![Key Findings](https://github.com/user-attachments/assets/506a82b6-a71f-4d9d-ab57-918b67ceba7f)
+
+📌 *This visualization summarizes the core analytical findings of the study, highlighting key patterns in juvenile justice outcomes, regional variations, and system inefficiencies.*
+
+---
+
+### 📊 2. Policy Recommendations  
+![Policy Recommendations](https://github.com/user-attachments/assets/3d882731-4383-4dfd-bece-073fb7aea587)
+
+📌 *This chart presents actionable policy recommendations derived from data insights, focusing on improving rehabilitation, reducing backlog, and strengthening juvenile justice efficiency.*
+
+---
+
+### 📊 3. Priority Distribution  
+![Priority Distribution](https://github.com/user-attachments/assets/c2d0864d-d6f5-42c1-bcbb-0db534e4896f)
+
+📌 *Shows the distribution of priority levels across juvenile cases, helping identify high-risk categories requiring immediate attention.*
+
+---
+
+### 📊 4. Disposal Outcome Mix  
+![Disposal Outcome Mix](https://github.com/user-attachments/assets/60399541-7cd3-4230-a429-36faeb4d8507)
+
+📌 *Illustrates the proportion of case outcomes including disposed, pending, and other resolution types.*
+
+---
+
+### 📊 5. Resolution Rate (All Cities)  
+![Resolution Rate](https://github.com/user-attachments/assets/f1a76313-e8bb-4314-9761-63a178658226)
+
+📌 *Represents the overall resolution efficiency of juvenile cases across cities.*
+
+---
+
+### 📊 6. Resolution Rate vs Rehabilitation Rate  
+![Resolution vs Rehabilitation](https://github.com/user-attachments/assets/eb216365-54b1-402c-a1f1-a9804aa36b6a)
+
+📌 *Compares judicial resolution efficiency with rehabilitation outcomes.*
+
+---
+
+### 📊 7. Disposed vs Pending (All Cities)  
+![Disposed vs Pending](https://github.com/user-attachments/assets/bf1cabb6-28f8-4750-8a8a-1e142cdfcd50)
+
+📌 *Shows backlog pressure by comparing disposed and pending cases across cities.*
+
+---
+
+### 📊 8. Disposal Method (Top 7 Cities)  
+![Disposal Method](https://github.com/user-attachments/assets/2cc0b205-3099-4e1f-8913-f6fa084ea688)
+
+📌 *Breaks down how cases are resolved in top-performing cities.*
+
+---
+
+### 📊 9. Derived Metrics Radar (Key Cities)  
+![Radar Chart](https://github.com/user-attachments/assets/8fad9048-6ca5-4f20-b0a3-7cd7362f1a75)
+
+📌 *Multi-dimensional comparison of key performance indicators across cities.*
+
+---
+
+### 📊 10. Cities Addressed per Recommendation  
+![Recommendations per City](https://github.com/user-attachments/assets/2e6e26a3-9060-4fff-9283-635543af13ec)
+
+📌 *Shows policy impact coverage across cities.*
+
+---
+
+### 📊 11. Backlog Burden vs Apprehensions  
+![Backlog vs Apprehensions](https://github.com/user-attachments/assets/1eb1ebc0-86c6-4807-9dd8-bab49142f649)
+
+📌 *Analyzes relationship between case backlog and juvenile apprehensions.*
+
+---
+
+### 📊 12. Top 8 Cities – Apprehensions  
+![Top Cities Apprehensions](https://github.com/user-attachments/assets/09d43050-1a97-4367-9558-a56e0f32fcba)
+
+📌 *Identifies cities with highest juvenile apprehension rates.*
+
+---
+
+### 📊 13. Severity Index vs Conviction Rate  
+![Severity vs Conviction](https://github.com/user-attachments/assets/a751c7f1-68f1-4433-9385-9bcac7b11478)
+
+📌 *Evaluates relationship between crime severity and conviction rates.*
+
+---
+
+### 📊 14. Complete Derived Metrics Table  
+![Complete Metrics Table](https://github.com/user-attachments/assets/0e3efe87-48ac-4c00-b9f8-e811b0d63eb0)
+
+📌 *Final consolidated dataset of all derived metrics across cities.*
+
+---
+
+
 
 
 
