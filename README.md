@@ -15,9 +15,7 @@
 ## 📌 Overview
 
 This project presents a **data-driven analysis of Juvenile Crime in India** using official data from the **National Crime Records Bureau (NCRB) 2023 (Table 5B-5)**.
-
 The objective is to transform raw government crime statistics into **interactive dashboards and actionable insights** using **IBM Cognos Analytics**, enabling a clear understanding of juvenile crime patterns, judicial outcomes, and overall system efficiency.
-
 The analysis focuses on identifying **distribution patterns, evaluating case disposal outcomes, and assessing the performance of the juvenile justice system** using structured analytical metrics.
 
 ---
