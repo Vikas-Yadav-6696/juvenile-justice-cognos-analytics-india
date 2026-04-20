@@ -18,6 +18,10 @@ This project delivers a structured analysis of juvenile crime statistics derived
 ---
 
 ## Analytical Scope
+The analysis focuses on:
+- Distribution of juvenile crime across major cities
+- Evaluation of case outcomes (discharged, institutionalized, imprisonment)
+- Assessment of judicial efficiency and case resolution patterns
 - City-wise distribution of juvenile crime  
 - Comparative evaluation of case outcomes  
 - Assessment of judicial efficiency and resolution patterns  
@@ -27,6 +31,14 @@ This project delivers a structured analysis of juvenile crime statistics derived
 ## Data Source
 **National Crime Records Bureau (NCRB), 2023**  
 Processed into a structured CSV format for analytical use.
+
+Key attributes include:
+- City
+- Total Juveniles
+- Case Outcomes
+- Pending Cases
+- Conviction Percentage
+
 
 ---
 
@@ -55,6 +67,15 @@ Visual models were designed to present comparative insights across multiple dime
 - Elevated pendency levels indicate process inefficiencies  
 
 ---
+
+
+##  How to Run
+1. Upload dataset in IBM Cognos Analytics  
+2. Create dashboard using dataset  
+3. Add charts (Bar, Pie, Table)  
+4. Apply calculated fields  
+5. Export report as PDF  
+
 
 
 
