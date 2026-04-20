@@ -25,7 +25,10 @@ The analysis focuses on identifying **distribution patterns, evaluating case dis
 ## Objective
 - Analyze juvenile crime patterns across cities  
 - Evaluate case outcomes and judicial performance  
-- Generate insights using data visualization  
+- Generate insights using data visualization
+- Identify backlog and pending case trends  
+- Compare regional differences in case outcomes  
+- Build interactive BI dashboards for exploratio
 
 ---
 
@@ -124,7 +127,7 @@ git clone https://github.com/Vikas-Yadav-6696/juvenile-justice-cognos-analytics-
 
 
 ---
----
+
 
 ## 📊 Key Performance Indicators (KPIs)
 
