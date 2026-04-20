@@ -9,7 +9,7 @@
 
 
 
-# Juvenile Crime Analysis — NCRB 2023
+# Juvenile Crime Analysis — NCRB 
 ---
 
 ## Overview
