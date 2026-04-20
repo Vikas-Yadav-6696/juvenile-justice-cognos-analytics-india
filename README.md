@@ -9,6 +9,8 @@
 
 
 
+
+
 # 👮 Juvenile Justice Data Analysis (India)
 ---
 
@@ -16,7 +18,7 @@
 
 This project presents a **data-driven analysis of Juvenile Crime in India** using official data from the **National Crime Records Bureau (NCRB) 2023 (Table 5B-5)**.
 The objective is to transform raw government crime statistics into **interactive dashboards and actionable insights** using **IBM Cognos Analytics**, enabling a clear understanding of juvenile crime patterns, judicial outcomes, and overall system efficiency.
-The analysis focuses on identifying **distribution patterns, evaluating case disposal outcomes, and assessing the performance of the juvenile justice system** using structured analytical metrics.
+The analysis focuses on identifying **distribution patterns, evaluating case disposal outcomes, and assessing the performance of the juvenile justice system** using structured analytical metrics. 
 
 ---
 
@@ -76,6 +78,12 @@ Visual models were designed to present comparative insights across multiple dime
 
 ---
 
+## 🌐 Live Project Preview
+
+🚀 Experience the interactive dashboard here:  
+👉 [Click to View Live Dashboard](https://vikas-yadav-6696.github.io/juvenile-justice-cognos-analytics-india/)
+
+📊 This live deployment showcases the IBM Cognos Analytics report built on NCRB 2023 juvenile justice data.
 
 
 ## 📸 Dashboard Visualizations & Insights
@@ -178,6 +186,8 @@ Visual models were designed to present comparative insights across multiple dime
 
 📌 *Final consolidated dataset of all derived metrics across cities.*
 
+
+[![Live Dashboard](https://img.shields.io/badge/View-Live%20Dashboard-green?style=for-the-badge)](https://vikas-yadav-6696.github.io/juvenile-justice-cognos-analytics-india/)
 ---
 
 
@@ -252,6 +262,7 @@ git clone https://github.com/Vikas-Yadav-6696/juvenile-justice-cognos-analytics-
   <img src="https://img.shields.io/badge/Dataset-NCRB%202023-orange" />
   <img src="https://img.shields.io/badge/Status-Completed-success" />
   <img src="https://img.shields.io/badge/Type-Analytical%20Report-informational" />
+  
 </p>
 
 <!-- Footer Animation -->
