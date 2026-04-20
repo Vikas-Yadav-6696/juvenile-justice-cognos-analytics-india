@@ -81,12 +81,13 @@ Visual models were designed to present comparative insights across multiple dime
 ## Dashboard Preview
 <img width="917" height="363" alt="Resolution rate vs  rehabilitation rate" src="https://github.com/user-attachments/assets/eb216365-54b1-402c-a1f1-a9804aa36b6a" raw=true />
 
-<img width="463" height="377" alt="Resolution rate — all cities" src="https://github.com/user-attachments/assets/f1a76313-e8bb-4314-9761-63a178658226" raw=true  />
 <img width="922" height="358" alt="Priority distribution" src="https://github.com/user-attachments/assets/c2d0864d-d6f5-42c1-bcbb-0db534e4896f" raw=true  />
 <img width="1875" height="835" alt="Policy Recommendations" src="https://github.com/user-attachments/assets/3d882731-4383-4dfd-bece-073fb7aea587" raw=true  />
 <img width="1867" height="437" alt="Key findings   insights" src="https://github.com/user-attachments/assets/506a82b6-a71f-4d9d-ab57-918b67ceba7f"  raw=true />
 <img width="926" height="447" alt="Disposed vs  pending — all cities" src="https://github.com/user-attachments/assets/bf1cabb6-28f8-4750-8a8a-1e142cdfcd50" raw=true  />
 <img width="468" height="412" alt="Disposal outcome mix" src="https://github.com/user-attachments/assets/60399541-7cd3-4230-a429-36faeb4d8507" raw=true  />
+
+<img width="463" height="377" alt="Resolution rate — all cities" src="https://github.com/user-attachments/assets/f1a76313-e8bb-4314-9761-63a178658226" raw=true  />
 <img width="931" height="460" alt="Disposal method — top 7 cities" src="https://github.com/user-attachments/assets/2cc0b205-3099-4e1f-8913-f6fa084ea688"  raw=true />
 <img width="925" height="381" alt="Derived metrics radar — key cities" src="https://github.com/user-attachments/assets/8fad9048-6ca5-4f20-b0a3-7cd7362f1a75" raw=true  />
 <img width="925" height="362" alt="Cities addressed per recommendation" src="https://github.com/user-attachments/assets/2e6e26a3-9060-4fff-9283-635543af13ec" raw=true  />
