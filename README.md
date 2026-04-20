@@ -74,7 +74,6 @@ Visual models were designed to present comparative insights across multiple dime
 ---
 
 
----
 
 ## Dashboard Preview
 
@@ -100,8 +99,12 @@ Visual models were designed to present comparative insights across multiple dime
 2. Create dashboard using dataset  
 3. Add charts (Bar, Pie, Table)  
 4. Apply calculated fields  
-5. Export report as PDF  
+5. Export report as PDF
 
+Clone the repository  
+```bash
+git clone https://github.com/Vikas-Yadav-6696/juvenile-justice-cognos-analytics-india.git
+```
 
 
 
@@ -113,11 +116,15 @@ Visual models were designed to present comparative insights across multiple dime
 - Microsoft Excel  
 
 ---
+## 👨‍💻 Author
 
-## Author
-**Vikas Yadav**  
-MCA – Data Science & AI  
-
+- **Name:** Vikas Yadav  
+- 📍 **Location:** India  
+- 🎓 **Role:** Aspiring Data Analyst | Business Intelligence & Data Visualization Enthusiast  
+- 💡 **Focus Areas:** Data Analytics, Business Intelligence, Data Visualization, Public Policy Analytics  
+- 🔗 **Objective:** Passionate about transforming raw data into actionable insights that support data-driven decision-making and real-world policy impact
+- 💻 **LinkedIn:** https://www.linkedin.com/in/vikas-yadav-dsai91
+- 💻 **GitHub:** https://github.com/Vikas-Yadav-6696 
 ---
 <p align="center">
   <img src="https://img.shields.io/badge/Tool-IBM%20Cognos%20Analytics-blue" />
